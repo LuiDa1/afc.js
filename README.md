@@ -5,11 +5,11 @@ afc.js - ASCII Font Colorizer in JavaScript
 
 ## Overview
 afc.js is a script that colorizes ASCII Fonts. The script works in two steps:
-1. It searches the Text for specific characters and puts the associating characters in a <span> element with the .ascii'configID' class.
+1. It searches the Text for specific characters and puts the associating characters in a 'span' element with the .ascii'configID' class.
 2. It gets all the associated classes and adds the inline-css-color. If specified it will also repeat this step with random colors and also animate the change via CSS Transitions
 
 ## Configuration
-In order to work the Script needs an container-element with the .ascii class, containing the <pre> elements.
+In order to work the Script needs an container-element with the .ascii class, containing the 'pre' elements.
 
 More info following soon...
 
