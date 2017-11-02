@@ -34,6 +34,12 @@ function randomColor() {
       Math.floor(Math.random() * 100) + '%',
       Math.floor(Math.random() * 100) + '%'
     ];
+  } else {
+    return [
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255)
+    ];
   }
 }
 
@@ -106,7 +112,8 @@ function setColor(asciiLines, asciiColorType) {
       var asciiSelection = line.querySelectorAll('.ascii' + configIndex);
 
       asciiSelection.forEach(function(ascii) {
-        ascii.style.color = asciiColorType + '(' + config.currentColor + ')';
+        //ascii.style.color = asciiColorType + '(' + config.currentColor + ')';
+        ascii.style.color = 'rgb' + '(' + config.currentColor + ')';
       });
     });
   });
