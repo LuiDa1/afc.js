@@ -139,7 +139,6 @@ setColor(asciiLines, asciiColorType);
 
 // If the asciiInterval is defined, set an interval
 if (asciiInterval === '' || asciiInterval.length >= 1) {
-  console.log('hello');
   window.setInterval(function() {
     asciiCharacters.forEach(function(config, configID) {
       configs[configID].startColor = randomColor();
@@ -148,15 +147,4 @@ if (asciiInterval === '' || asciiInterval.length >= 1) {
 
     setColor(asciiLines, asciiColorType);
   }, asciiInterval * 1000);
-}
-
-// If you want a random initial color, make sure the ascii element has the asciiRandomColor attribute,
-// WITHOUT a value
-if (asciiRandomColor === '') {
-  asciiCharacters.forEach(function(config, configID) {
-    configs[configID].startColor = randomColor();
-    configs[configID].endColor = randomColor();
-  });
-
-  setColor(asciiLines, asciiColorType);
 }
