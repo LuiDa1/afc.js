@@ -6,7 +6,6 @@ var configs = [];
 
 // Stores the attributes/settings
 var asciiColorType = ascii.getAttribute('ascii_color_type');
-var asciiRandomColor = ascii.getAttribute('ascii_random_color');
 // Should be a Number, leave it empty for a Strobo-Effect
 var asciiInterval = ascii.getAttribute('ascii_interval');
 
