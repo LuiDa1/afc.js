@@ -7,7 +7,8 @@ var configs = [];
 // Stores the attributes/settings
 var asciiColorType = ascii.getAttribute('ascii_color_type');
 // Should be a Number, leave it empty for a Strobo-Effect
-var asciiInterval = ascii.getAttribute('ascii_interval');
+var asciiInterval = Number(ascii.getAttribute('ascii_interval'));
+var hasAsciiInterval = ascii.hasAttribute('ascii_interval');
 
 // Get the Config from the ascii_characters attripute of the .ascii element
 var asciiCharacters = ascii.getAttribute('ascii_characters').split(',');
@@ -137,7 +138,7 @@ colorSpans.forEach(function(span) {
 setColor(asciiLines, asciiColorType);
 
 // If the asciiInterval is defined, set an interval
-if (asciiInterval === '' || asciiInterval.length >= 1) {
+if (asciiInterval > 0 || hasAsciiInterval) {
   window.setInterval(function() {
     asciiCharacters.forEach(function(config, configID) {
       configs[configID].startColor = randomColor();
