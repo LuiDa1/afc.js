@@ -72,12 +72,12 @@ For the case where you don't want to have an interval, but rather have a random 
 ```
 
 ## Todo
-- hsl color support (not working right now)
-- Cleanup the configuration options
-- Create a way to specify the characters once, and add the start and end colors later (reapiting)
-- Write examples with images (in the README)
-- maybe add stuff like different modes like color-circles, waves...
-- Fix the letter-spacing/monotype Mobile browser issue.
+[ ] hsl color support (not working right now)
+[x] Cleanup the configuration options
+[x] Create a way to specify the characters once, and add the start and end colors later (reapiting)
+[x] Write examples with images (in the README)
+[ ] maybe add stuff like different modes like color-circles, waves...
+[ ] Fix the letter-spacing/monotype Mobile browser issue.
 
 ## Where do I get ASCII fonts?
 Different ASCII Fonts can be fount here:
