@@ -2,23 +2,16 @@
 var ascii = document.querySelector('.ascii');
 var asciiLines = ascii.querySelectorAll('pre');
 var colorSpans;
+var configs = [];
 
 // Stores the attributes/settings
 var asciiColorType = ascii.getAttribute('ascii_color_type');
 var asciiRandomColor = ascii.getAttribute('ascii_random_color');
-// Must contain a Number, otherwise you get a Strobo-Effect
+// Should be a Number, leave it empty for a Strobo-Effect
 var asciiInterval = ascii.getAttribute('ascii_interval');
 
-// This fn creates 1 configuration at a time with the necessary information
-function configCreator(characters, startColor, endColor, shadowCorrection) {
-  return {
-    characters,
-    startColor,
-    endColor,
-    shadowCorrection,
-    currentColor: []
-  };
-}
+// Get the Config from the ascii_characters attripute of the .ascii element
+var asciiCharacters = ascii.getAttribute('ascii_characters').split(',');
 
 // Generates a random color based on the asciiColorType attribute
 function randomColor() {
@@ -121,15 +114,17 @@ function setColor(asciiLines, asciiColorType) {
 // the shadowcorrection is necessary for certain fonts, that have a shadow-effect,
 // the shadowcorrection makes sure that the "foreground" characters have the steps set
 // for the last line with the characters
-var configs = [
-  configCreator(['█','▌','▄','▀'], [255,140,0], [255,0,255], 1),
-  configCreator(['═','║','╔','╗','╝','╚'], [100,0,0], [255,0,0], 0)
-];
+asciiCharacters.forEach(function(config) {
+  configs.push({
+    characters: config.split(''),
+    startColor: randomColor(),
+    endColor: randomColor(),
+    shadowCorrection: 0,
+  });
+});
 
-// Sets the classess for the different characters
+// Injects the spans/classess for the different characters
 lineCrawler();
-// Sets the color initiali, is necessary for the case, where you don't want a random color
-setColor(asciiLines, asciiColorType);
 
 // Stores all span elements that have been created by this script
 colorSpans = ascii.querySelectorAll('span');
@@ -139,14 +134,17 @@ colorSpans.forEach(function(span) {
   span.style.transition = 'color ' + asciiInterval + 's linear';
 });
 
+// Sets the color initiali, is necessary for the case, where you don't want a random color
+setColor(asciiLines, asciiColorType);
+
 // If the asciiInterval is defined, set an interval
-if (asciiInterval === '') {
+if (asciiInterval === '' || asciiInterval.length >= 1) {
   console.log('hello');
   window.setInterval(function() {
-    configs = [
-      configCreator(['█','▌','▄','▀'], randomColor(), randomColor(), 1),
-      configCreator(['═','║','╔','╗','╝','╚'], randomColor(), randomColor(), 0)
-    ];
+    asciiCharacters.forEach(function(config, configID) {
+      configs[configID].startColor = randomColor();
+      configs[configID].endColor = randomColor();
+    });
 
     setColor(asciiLines, asciiColorType);
   }, asciiInterval * 1000);
@@ -155,10 +153,10 @@ if (asciiInterval === '') {
 // If you want a random initial color, make sure the ascii element has the asciiRandomColor attribute,
 // WITHOUT a value
 if (asciiRandomColor === '') {
-  configs = [
-    configCreator(['█','▌','▄','▀'], randomColor(), randomColor(), 1),
-    configCreator(['═','║','╔','╗','╝','╚'], randomColor(), randomColor(), 0)
-  ];
+  asciiCharacters.forEach(function(config, configID) {
+    configs[configID].startColor = randomColor();
+    configs[configID].endColor = randomColor();
+  });
 
   setColor(asciiLines, asciiColorType);
 }
