@@ -4,10 +4,10 @@ var asciiLines = ascii.querySelectorAll('pre');
 var colorSpans;
 
 // Stores the attributes/settings
-var colorInterval = ascii.getAttribute('ascii_interval');
-var asciiRandom = ascii.getAttribute('ascii_random');
-var asciiColorRandom = ascii.getAttribute('ascii_color_random');
 var asciiColorType = ascii.getAttribute('ascii_color_type');
+var asciiRandomColor = ascii.getAttribute('ascii_random_color');
+// Must contain a Number, otherwise you get a Strobo-Effect
+var asciiInterval = ascii.getAttribute('ascii_interval');
 
 // This fn creates 1 configuration at a time with the necessary information
 function configCreator(characters, startColor, endColor, shadowCorrection) {
@@ -22,24 +22,22 @@ function configCreator(characters, startColor, endColor, shadowCorrection) {
 
 // Generates a random color based on the asciiColorType attribute
 function randomColor() {
-  if (asciiColorType === 'rgb') {
+  // Generates a color array
+  function colorGen(value1, value2, value3) {
     return [
-      Math.floor(Math.random() * 255),
-      Math.floor(Math.random() * 255),
-      Math.floor(Math.random() * 255)
+      Math.floor(Math.random() * value1),
+      Math.floor(Math.random() * value2),
+      Math.floor(Math.random() * value3)
     ];
-  } else if (asciiColorType === 'hsl') {
-    return [
-      Math.floor(Math.random() * 360),
-      Math.floor(Math.random() * 100) + '%',
-      Math.floor(Math.random() * 100) + '%'
-    ];
+  }
+
+  // CURRENTLY NOT WORKING // HSL
+  if (asciiColorType === 'hsl') {
+    return colorGen(360,100,100);
+
+  // default RGB, also in case of an error...
   } else {
-    return [
-      Math.floor(Math.random() * 255),
-      Math.floor(Math.random() * 255),
-      Math.floor(Math.random() * 255)
-    ];
+    return colorGen(255,255,255);
   }
 }
 
@@ -138,12 +136,12 @@ colorSpans = ascii.querySelectorAll('span');
 
 // Sets the css transition-speed according to the ascii_interval attribute
 colorSpans.forEach(function(span) {
-  span.style.transition = 'color ' + colorInterval + 's linear';
+  span.style.transition = 'color ' + asciiInterval + 's linear';
 });
 
-// If you want a random color interval, make sure the ascii element has the asciiRandom attribute,
-// WITHOUT a value
-if (asciiRandom === '') {
+// If the asciiInterval is defined, set an interval
+if (asciiInterval === '') {
+  console.log('hello');
   window.setInterval(function() {
     configs = [
       configCreator(['█','▌','▄','▀'], randomColor(), randomColor(), 1),
@@ -151,12 +149,12 @@ if (asciiRandom === '') {
     ];
 
     setColor(asciiLines, asciiColorType);
-  }, colorInterval * 1000);
+  }, asciiInterval * 1000);
 }
 
-// If you want a random initial color, make sure the ascii element has the asciiColorRandom attribute,
+// If you want a random initial color, make sure the ascii element has the asciiRandomColor attribute,
 // WITHOUT a value
-if (asciiColorRandom === '') {
+if (asciiRandomColor === '') {
   configs = [
     configCreator(['█','▌','▄','▀'], randomColor(), randomColor(), 1),
     configCreator(['═','║','╔','╗','╝','╚'], randomColor(), randomColor(), 0)
