@@ -80,7 +80,7 @@ For the case where you don't want to have an interval, but rather have a random 
 - [ ] Fix the letter-spacing/monotype Mobile browser issue.
 
 ## Where do I get ASCII fonts?
-Different ASCII Fonts can be fount here:
+Different ASCII Fonts can be found here:
 - [Patorjk's Text to ASCII Art Generator](http://www.patorjk.com/software/taag/#p=testall&f=Alpha&t=AFC.JS)
 - [FIGlet](http://www.figlet.org/)
 - Or any other ASCII Art resource ;-)
