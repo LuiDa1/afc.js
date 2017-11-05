@@ -38,7 +38,7 @@ The different character-sets should be separated by a comma ',' and the characte
 Per default the script will generate a random RGB color for you, everytime youu reload/revisit the page.
 
 ### Specific colors
-
+Needs to be implemented first...
 
 ### Interval
 In case you add the attribute 'ascii_interval' to the '.ascii' element and forget to add a value like this:
@@ -63,12 +63,6 @@ And if you add a value like '1' (for 1 second) you got something like this:
 Values with decimal places are also possible:
 ```
 <div class="ascii" ascii_characters="█▌▄▀,═║╔╗╝╚" ascii_interval="0.1">
-```
-
-### Random Color
-For the case where you don't want to have an interval, but rather have a random color everytime someone loads the page, you can do this with the 'ascii_random_color' attribute (WITHOUT A PARAMETER) like this:
-```
-<div class="ascii" ascii_characters="█▌▄▀,═║╔╗╝╚" ascii_random_color>
 ```
 
 ## Todo
