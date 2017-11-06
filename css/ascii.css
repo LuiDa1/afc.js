@@ -1,4 +1,19 @@
+@font-face{
+  font-family: 'Source Code Pro';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../font/SourceCodePro-Regular.eot') format('embedded-opentype'),
+  url('../font/SourceCodePro-Regular.ttf.woff2') format('woff2'),
+  url('../font/SourceCodePro-Regular.otf.woff') format('woff'),
+  url('../font/SourceCodePro-Regular.otf') format('opentype'),
+  url('../font/SourceCodePro-Regular.ttf') format('truetype');
+}
+
 .ascii pre {
-  font-family: monospace;
   margin: 0;
+}
+
+.ascii pre {
+  font-family: 'Source Code Pro', monospace;
 }
