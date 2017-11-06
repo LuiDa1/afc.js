@@ -1,5 +1,5 @@
 # afc.js
-afc.js - ASCII Font Colorizer in Vanilla JavaScript: [click me for a Demo :-)](https://n0ah01.github.io/afc.js/index.html)
+afc.js - ASCII Font Colorizer in Vanilla JavaScript:
 
 ![Header IMG that shows the capabilitys of the script](img/header.gif)
 
