@@ -20,6 +20,8 @@ You need to make sure the 'pre' elements have no margin (per browser-default the
   margin: 0
 }
 ```
+You also need to have a font (monospaced) that has the characters that your ASCII Art is made of this demo: █▌▄▀═║╔╗╝╚. If your Browser/OS does not have a font with these characters, it will fallback to some (unknown) font, that can display the characters, but it messes up the monospace.
+This is why I have included the regular profil of Adobes [Source Code Pro](https://github.com/adobe-fonts/source-code-pro).
 
 ### HTML Minimum Config
 In order to work the script needs an container element with the '.ascii' class, containing the 'pre' elements with the ASCII Art.
