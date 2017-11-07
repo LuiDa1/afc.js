@@ -66,13 +66,15 @@ Values with decimal places are also possible:
 ```
 
 ## Todo
+- [ ] Support for multiple .ascii elements per page.
 - [ ] hsl color support (not working right now).
 - [ ] Make it possible to define the start and end colors for each character-sets.
 - [x] Cleanup the configuration options.
 - [x] Create a way to specify the characters once, and add the start and end colors later (reapiting).
 - [x] Write examples with images (in the README).
 - [ ] maybe add stuff like different modes like color-circles, waves...
-- [ ] Fix the letter-spacing/monotype Mobile browser issue.
+- [x] Fix the letter-spacing/monotype Mobile browser issue.
+- [ ] Safari on iOS still has the bug, even with the font. Can not find the issue as I don't have an iPhone available...
 
 ## Where do I get ASCII fonts?
 Different ASCII Fonts can be found here:
