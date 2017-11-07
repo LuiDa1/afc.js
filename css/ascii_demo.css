@@ -14,3 +14,10 @@ body {
 .ascii pre {
   margin: 0
 }
+
+.repo_link {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  border: 0;
+}
