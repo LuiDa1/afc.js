@@ -1,6 +1,7 @@
 // Gets all the nessesary Elements, or creates the variables for them
 var ascii = document.querySelectorAll('.ascii');
 
+// Loops over all .ascii elements on the page
 ascii.forEach(function(ascii) {
   var asciiLines = ascii.querySelectorAll('pre');
   var colorSpans;
