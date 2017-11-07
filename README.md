@@ -8,6 +8,8 @@ afc.js is a script that colorizes ASCII Art. The script works in two steps:
 1. It searches the Text for specific characters and puts the associating characters in a 'span' element with the .ascii# (# is a number) class.
 2. It gets all the elements with the classes from step 1 and adds the inline-css-color. If specified it will also repeat this step with random colors and also animate the change via CSS Transitions.
 
+The script also supports multiple .ascii elements.
+
 ## Configuration
 I think it's obvious that you need to load the script in your HTML file:
 ```
