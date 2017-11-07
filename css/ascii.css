@@ -13,4 +13,5 @@
 .ascii pre {
   font-family: 'Source Code Pro', monospace;
   margin: 0;
+  line-height: 1.38em;
 }
