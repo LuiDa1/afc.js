@@ -68,7 +68,7 @@ Values with decimal places are also possible:
 ```
 
 ## Todo
-- [ ] Support for multiple .ascii elements per page.
+- [x] Support for multiple .ascii elements per page.
 - [ ] hsl color support (not working right now).
 - [ ] Make it possible to define the start and end colors for each character-sets.
 - [x] Cleanup the configuration options.

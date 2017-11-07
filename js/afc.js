@@ -1,150 +1,153 @@
 // Gets all the nessesary Elements, or creates the variables for them
-var ascii = document.querySelector('.ascii');
-var asciiLines = ascii.querySelectorAll('pre');
-var colorSpans;
-var configs = [];
+var ascii = document.querySelectorAll('.ascii');
 
-// Stores the attributes/settings
-var asciiColorType = ascii.getAttribute('ascii_color_type');
-// Should be a Number, leave it empty for a Strobo-Effect
-var asciiInterval = Number(ascii.getAttribute('ascii_interval'));
-var hasAsciiInterval = ascii.hasAttribute('ascii_interval');
+ascii.forEach(function(ascii) {
+  var asciiLines = ascii.querySelectorAll('pre');
+  var colorSpans;
+  var configs = [];
 
-// Get the Config from the ascii_characters attripute of the .ascii element
-var asciiCharacters = ascii.getAttribute('ascii_characters').split(',');
+  // Stores the attributes/settings
+  var asciiColorType = ascii.getAttribute('ascii_color_type');
+  // Should be a Number, leave it empty for a Strobo-Effect
+  var asciiInterval = Number(ascii.getAttribute('ascii_interval'));
+  var hasAsciiInterval = ascii.hasAttribute('ascii_interval');
 
-// Generates a random color based on the asciiColorType attribute
-function randomColor() {
-  // Generates a color array
-  function colorGen(value1, value2, value3) {
-    return [
-      Math.floor(Math.random() * value1),
-      Math.floor(Math.random() * value2),
-      Math.floor(Math.random() * value3)
-    ];
+  // Get the Config from the ascii_characters attripute of the .ascii element
+  var asciiCharacters = ascii.getAttribute('ascii_characters').split(',');
+
+  // Generates a random color based on the asciiColorType attribute
+  function randomColor() {
+    // Generates a color array
+    function colorGen(value1, value2, value3) {
+      return [
+        Math.floor(Math.random() * value1),
+        Math.floor(Math.random() * value2),
+        Math.floor(Math.random() * value3)
+      ];
+    }
+
+    // CURRENTLY NOT WORKING // HSL
+    if (asciiColorType === 'hsl') {
+      return colorGen(360,100,100);
+
+    // default RGB, also in case of an error...
+    } else {
+      return colorGen(255,255,255);
+    }
   }
 
-  // CURRENTLY NOT WORKING // HSL
-  if (asciiColorType === 'hsl') {
-    return colorGen(360,100,100);
+  // Calculates the Color steps between the start and end colors, depending on the available lines
+  function calculateSteps(config) {
+    config.colorSteps = [];
 
-  // default RGB, also in case of an error...
-  } else {
-    return colorGen(255,255,255);
-  }
-}
-
-// Calculates the Color steps between the start and end colors, depending on the available lines
-function calculateSteps(config) {
-  config.colorSteps = [];
-
-  config.endColor.forEach(function(color, colorIndex) {
-    config.colorSteps.push(Math.floor((color - config.startColor[colorIndex]) / asciiLines.length - config.shadowCorrection));
-  });
-}
-
-// Sets the current Color, is run for each span
-function setCurrentColor(line, lineIndex, config, configIndex) {
-  if(lineIndex === 0) {
-    config.currentColor = config.startColor;
-
-  } else if(lineIndex + 1 === asciiLines.length) {
-    config.currentColor = config.endColor;
-
-  } else {
-    config.currentColor.forEach(function(color, colorIndex) {
-      config.currentColor[colorIndex] = color + config.colorSteps[colorIndex];
+    config.endColor.forEach(function(color, colorIndex) {
+      config.colorSteps.push(Math.floor((color - config.startColor[colorIndex]) / asciiLines.length - config.shadowCorrection));
     });
   }
-}
 
-// Loops over every character and creates the classes for the different caracters.
-function characterCrawler(lineArray) {
-  var lastCharacter = '';
+  // Sets the current Color, is run for each span
+  function setCurrentColor(line, lineIndex, config, configIndex) {
+    if(lineIndex === 0) {
+      config.currentColor = config.startColor;
 
-  lineArray.forEach(function (character, characterIndex) {
-    var beginning = '';
-    var closure = '';
+    } else if(lineIndex + 1 === asciiLines.length) {
+      config.currentColor = config.endColor;
 
-    configs.forEach(function(config, configIndex) {
-      if (config.characters.includes(lastCharacter) && !config.characters.includes(character)) {
-        closure += '</span>';
+    } else {
+      config.currentColor.forEach(function(color, colorIndex) {
+        config.currentColor[colorIndex] = color + config.colorSteps[colorIndex];
+      });
+    }
+  }
 
-      } else if (!config.characters.includes(lastCharacter) && config.characters.includes(character)) {
-        beginning += '<span class="ascii' + configIndex + '">';
-      }
+  // Loops over every character and creates the classes for the different caracters.
+  function characterCrawler(lineArray) {
+    var lastCharacter = '';
+
+    lineArray.forEach(function (character, characterIndex) {
+      var beginning = '';
+      var closure = '';
+
+      configs.forEach(function(config, configIndex) {
+        if (config.characters.includes(lastCharacter) && !config.characters.includes(character)) {
+          closure += '</span>';
+
+        } else if (!config.characters.includes(lastCharacter) && config.characters.includes(character)) {
+          beginning += '<span class="ascii' + configIndex + '">';
+        }
+      });
+
+      lineArray[characterIndex] = closure + beginning + character;
+      lastCharacter = character;
     });
+  }
 
-    lineArray[characterIndex] = closure + beginning + character;
-    lastCharacter = character;
-  });
-}
-
-// Loops over every line to create the class
-function lineCrawler() {
-  asciiLines.forEach(function (line, lineIndex) {
-    var lineArray = line.innerHTML.split('');
-
-    characterCrawler(lineArray);
-
-    line.innerHTML = lineArray.join('');
-  });
-}
-
-// Sets (renders) the color for each line, depending of the character type and color grade(step)
-function setColor(asciiLines, asciiColorType) {
-  configs.forEach(function(config, configIndex) {
-
-    calculateSteps(config);
-
+  // Loops over every line to create the class
+  function lineCrawler() {
     asciiLines.forEach(function (line, lineIndex) {
-      setCurrentColor(line, lineIndex, config, configIndex);
+      var lineArray = line.innerHTML.split('');
 
-      var asciiSelection = line.querySelectorAll('.ascii' + configIndex);
+      characterCrawler(lineArray);
 
-      asciiSelection.forEach(function(ascii) {
-        //ascii.style.color = asciiColorType + '(' + config.currentColor + ')';
-        ascii.style.color = 'rgb' + '(' + config.currentColor + ')';
+      line.innerHTML = lineArray.join('');
+    });
+  }
+
+  // Sets (renders) the color for each line, depending of the character type and color grade(step)
+  function setColor(asciiLines, asciiColorType) {
+    configs.forEach(function(config, configIndex) {
+
+      calculateSteps(config);
+
+      asciiLines.forEach(function (line, lineIndex) {
+        setCurrentColor(line, lineIndex, config, configIndex);
+
+        var asciiSelection = line.querySelectorAll('.ascii' + configIndex);
+
+        asciiSelection.forEach(function(ascii) {
+          //ascii.style.color = asciiColorType + '(' + config.currentColor + ')';
+          ascii.style.color = 'rgb' + '(' + config.currentColor + ')';
+        });
       });
     });
-  });
-}
+  }
 
-// Initial definition of the characters, with start and end color + optional shadowcorrection,
-// the shadowcorrection is necessary for certain fonts, that have a shadow-effect,
-// the shadowcorrection makes sure that the "foreground" characters have the steps set
-// for the last line with the characters
-asciiCharacters.forEach(function(config) {
-  configs.push({
-    characters: config.split(''),
-    startColor: randomColor(),
-    endColor: randomColor(),
-    shadowCorrection: 0,
-  });
-});
-
-// Injects the spans/classess for the different characters
-lineCrawler();
-
-// Stores all span elements that have been created by this script
-colorSpans = ascii.querySelectorAll('span');
-
-// Sets the css transition-speed according to the ascii_interval attribute
-colorSpans.forEach(function(span) {
-  span.style.transition = 'color ' + asciiInterval + 's linear';
-});
-
-// Sets the color initiali, is necessary for the case, where you don't want a random color
-setColor(asciiLines, asciiColorType);
-
-// If the asciiInterval is defined, set an interval
-if (asciiInterval > 0 || hasAsciiInterval) {
-  window.setInterval(function() {
-    asciiCharacters.forEach(function(config, configID) {
-      configs[configID].startColor = randomColor();
-      configs[configID].endColor = randomColor();
+  // Initial definition of the characters, with start and end color + optional shadowcorrection,
+  // the shadowcorrection is necessary for certain fonts, that have a shadow-effect,
+  // the shadowcorrection makes sure that the "foreground" characters have the steps set
+  // for the last line with the characters
+  asciiCharacters.forEach(function(config) {
+    configs.push({
+      characters: config.split(''),
+      startColor: randomColor(),
+      endColor: randomColor(),
+      shadowCorrection: 0,
     });
+  });
 
-    setColor(asciiLines, asciiColorType);
-  }, asciiInterval * 1000);
-}
+  // Injects the spans/classess for the different characters
+  lineCrawler();
+
+  // Stores all span elements that have been created by this script
+  colorSpans = ascii.querySelectorAll('span');
+
+  // Sets the css transition-speed according to the ascii_interval attribute
+  colorSpans.forEach(function(span) {
+    span.style.transition = 'color ' + asciiInterval + 's linear';
+  });
+
+  // Sets the color initiali, is necessary for the case, where you don't want a random color
+  setColor(asciiLines, asciiColorType);
+
+  // If the asciiInterval is defined, set an interval
+  if (asciiInterval > 0 || hasAsciiInterval) {
+    window.setInterval(function() {
+      asciiCharacters.forEach(function(config, configID) {
+        configs[configID].startColor = randomColor();
+        configs[configID].endColor = randomColor();
+      });
+
+      setColor(asciiLines, asciiColorType);
+    }, asciiInterval * 1000);
+  }
+});
